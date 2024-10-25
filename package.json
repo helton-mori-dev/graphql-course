@@ -7,7 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.2.16"
+    "@apollo/client": "^3.11.8",
+    "@vue/apollo-composable": "^4.2.1",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.12.6",
+    "vue": "^3.2.16",
+    "vue-demi": "^0.14.10"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
