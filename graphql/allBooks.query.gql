@@ -1,5 +1,7 @@
-query AllBooks {
-  allBooks {
+# Write your query or mutation here
+query AllBooks($search: String) {
+  allBooks(search: $search) {
+    # now search is dynamic, accepting an external value
     id
     title
     rating
