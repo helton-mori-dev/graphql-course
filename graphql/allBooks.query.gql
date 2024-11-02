@@ -1,9 +1,6 @@
-# Write your query or mutation here
+#import './book.fragment.gql'
 query AllBooks($search: String) {
   allBooks(search: $search) {
-    # now search is dynamic, accepting an external value
-    id
-    title
-    rating
+    ...BookFragment
   }
 }
