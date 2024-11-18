@@ -13,7 +13,8 @@
     "graphql": "^15.3.0",
     "graphql-tag": "^2.12.6",
     "vue": "^3.2.16",
-    "vue-demi": "^0.14.10"
+    "vue-demi": "^0.14.10",
+    "subscriptions-transport-ws": "^0.11.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",

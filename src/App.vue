@@ -36,6 +36,7 @@
 import { computed, ref } from "vue";
 import { useQuery } from "@vue/apollo-composable";
 import ALL_BOOKS_QUERY from "./graphql/allBooks.query.gql";
+import BOOK_SUBSCRIPTION from "./graphql/newBook.subscription.gql";
 import EditRating from "./components/EditRating.vue";
 import AddBook from "./components/AddBook.vue";
 
@@ -50,7 +51,7 @@ export default {
     const activeBook = ref(null);
     const showNewBookForm = ref(false);
 
-    const { result, loading, error } = useQuery(
+    const { result, loading, error, subscribeToMore } = useQuery(
       ALL_BOOKS_QUERY,
       () => ({
         search: searchTerm.value,
@@ -60,6 +61,19 @@ export default {
         // enabled: searchTerm.value.length > 2,
       })
     );
+
+    subscribeToMore(() => ({
+      document: BOOK_SUBSCRIPTION,
+      updateQuery(previousResult, newResult) {
+        const res = {
+          allBooks: [
+            ...previousResult.allBooks,
+            newResult.subscriptionData.data.bookSub,
+          ],
+        };
+        return res;
+      },
+    }));
 
     const books = computed(() => result.value?.allBooks ?? []);
 
