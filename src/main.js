@@ -8,6 +8,8 @@ import {
 import gql from "graphql-tag";
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import { WebSocketLink } from "@apollo/client/link/ws";
+import typeDefs from "./graphql/typedefs.gql";
+import FAVORITE_BOOKS_QUERY from "./graphql/favoriteBooks.gql";
 
 import App from "./App.vue";
 import { getMainDefinition } from "@apollo/client/utilities";
@@ -37,9 +39,24 @@ const link = split(
 
 const cache = new InMemoryCache();
 
+cache.writeQuery({
+  query: FAVORITE_BOOKS_QUERY,
+  data: {
+    favoriteBooks: [
+      {
+        __typename: "Book",
+        title: "My book",
+        id: 234,
+        rating: 5,
+      },
+    ],
+  },
+});
+
 const apolloClient = new ApolloClient({
   link,
   cache,
+  typeDefs,
 });
 
 const ALL_BOOKS_QUERY = gql`
