@@ -13,6 +13,7 @@ import FAVORITE_BOOKS_QUERY from "./graphql/favoriteBooks.gql";
 
 import App from "./App.vue";
 import { getMainDefinition } from "@apollo/client/utilities";
+import AddBook from "./components/AddBook.vue";
 
 const wsLink = new WebSocketLink({
   uri: `ws://localhost:4000/graphql`,
@@ -53,10 +54,23 @@ cache.writeQuery({
   },
 });
 
+const resolvers = {
+  Mutation: {
+    addBookToFavorites: (_, { book }, { cache }) => {
+      const data = cache.readQuery({ query: FAVORITE_BOOKS_QUERY });
+      const newData = {
+        favoriteBooks: [...data.favoriteBooks, book],
+      };
+      cache.writeQuery({ query: FAVORITE_BOOKS_QUERY, data: newData });
+      return newData.favoriteBooks;
+    },
+  },
+};
 const apolloClient = new ApolloClient({
   link,
   cache,
   typeDefs,
+  resolvers,
 });
 
 const ALL_BOOKS_QUERY = gql`
